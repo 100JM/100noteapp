@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+
 import useUi from "../store/useUi";
 
 const NoteButton = () => {
@@ -9,11 +10,24 @@ const NoteButton = () => {
     };
 
     return (
-        <div className="mt-8 flex items-center justify-end flex-shrink-0">
-            <Button type="button" className="cursor-pointer bg-blue-600 text-white" onClick={handleAddBtn}>
-                등록
-            </Button>
-        </div>
+        <>
+            {!registForm ?
+                <div className="mt-8 flex items-center justify-end flex-shrink-0">
+                    <Button type="button" className="cursor-pointer bg-blue-600 text-white" onClick={handleAddBtn}>
+                        Create Note
+                    </Button>
+                </div>
+                :
+                <div className="mt-8 flex items-center justify-between flex-shrink-0">
+                    <Button type="button" className="cursor-pointer bg-red-600 text-white">
+                        Remove
+                    </Button>
+                    <Button type="button" className="cursor-pointer bg-blue-600 text-white">
+                        Done
+                    </Button>
+                </div>
+            }
+        </>
     );
 };
 
