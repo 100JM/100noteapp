@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Ui } from "../type/ui";
+import { Ui } from "../type/note";
 
 const useUi = create<Ui>((set) => ({
     registForm: false,

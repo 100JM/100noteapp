@@ -2,7 +2,6 @@
 
 import NoteSearchForm from "./NoteSearchForm";
 import NoteList from "./NoteList";
-import NoteButton from "./NoteButton";
 import RegistNote from "./RegistNote";
 
 import useUi from "../store/useUi";
@@ -23,7 +22,6 @@ const NoteApp = () => {
                 </>
                 : <RegistNote />
             }
-            <NoteButton />
         </div>
     );
 };
