@@ -12,10 +12,14 @@ export type noteInterface = z.infer<typeof noteSchema>;
 export interface Ui {
     registForm: boolean;
     setRegistForm: (isShow: boolean) => void;
+    isModify: boolean;
+    setIsModify: (isModify: boolean) => void;
 }
 
-export interface NoteList {
+export interface NoteInfo {
     noteList: noteInterface[];
     setNoteList: (note: noteInterface[]) => void;
+    selectedNote: noteInterface | null;
+    setSlectedNote: (note: noteInterface | null) => void;
 }
 
