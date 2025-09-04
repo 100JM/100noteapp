@@ -9,8 +9,6 @@ import { noteSchema, type noteInterface } from "../type/note";
 import useUi from "../store/useUi";
 import useNote from "../store/useNote";
 
-
-
 const RegistNote = () => {
     const { setRegistForm, isModify } = useUi();
     const { setNoteList, selectedNote } = useNote();
@@ -32,7 +30,7 @@ const RegistNote = () => {
 
     const saveNewNote = () => {
         setErrorMsg('');
-        const noteId = `${titleRef.current?.value}_${dayjs().format('YYYY-MM-DD HH:mm:ss')}`;
+        const noteId = `${crypto.randomUUID()}-${dayjs().format('YYYY-MM-DD HH:mm:ss')}`;
         const checkError = noteSchema.safeParse({ id: noteId, title: titleRef.current?.value, content: contentRef.current?.value });
 
         if (!checkError.success) {
@@ -44,6 +42,7 @@ const RegistNote = () => {
                 title: titleRef.current?.value || '',
                 content: contentRef.current?.value,
                 date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                modifyDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             };
 
             const noteList = JSON.parse(localStorage.getItem('notes') || '[]');
@@ -74,7 +73,7 @@ const RegistNote = () => {
                         ...n,
                         title: titleRef.current?.value || selectedNote.title,
                         content: contentRef.current?.value,
-                        date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                        modifyDate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                     };
                 }
                 return n;

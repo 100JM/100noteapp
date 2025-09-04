@@ -7,6 +7,8 @@ const useNote = create<NoteInfo>((set) => ({
     setNoteList: (note: noteInterface[]) => set({ noteList: note }),
     selectedNote: null,
     setSlectedNote: (note: noteInterface | null) => set({ selectedNote: note }),
+    sortOrder: '',
+    setSortOrder: (sort: string) => set({ sortOrder: sort }),
 }));
 
 export default useNote;

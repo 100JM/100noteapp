@@ -5,6 +5,7 @@ export const noteSchema = z.object({
     title: z.string().nonempty({ message: '제목은 필수 항목입니다.' }),
     content: z.string().nullable().optional(),
     date: z.string().nullable().optional(),
+    modifyDate: z.string().nullable().optional(),
 });
 
 export type noteInterface = z.infer<typeof noteSchema>;
@@ -21,5 +22,7 @@ export interface NoteInfo {
     setNoteList: (note: noteInterface[]) => void;
     selectedNote: noteInterface | null;
     setSlectedNote: (note: noteInterface | null) => void;
+    sortOrder: string;
+    setSortOrder: (sort: string) => void;
 }
 

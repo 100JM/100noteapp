@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import useUi from "../store/useUi";
 import useNote from "../store/useNote";
 import { noteInterface } from "../type/note";
@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 
 const NoteList = () => {
     const { setRegistForm, setIsModify } = useUi();
-    const { noteList, setNoteList, setSlectedNote } = useNote();
+    const { noteList, setNoteList, setSlectedNote, sortOrder } = useNote();
     const [loading, setLoading] = useState<boolean>(true);
 
     const handleAddBtn = () => {
@@ -26,24 +26,36 @@ const NoteList = () => {
     const calculationNoteDate = (date: string) => {
         const nowDate = dayjs();
         const noteDate = dayjs(date);
-        
+
         const diffSeconds = nowDate.diff(noteDate, 'second');
         const diffMinutes = nowDate.diff(noteDate, 'minute');
         const diffHours = nowDate.diff(noteDate, 'hour');
         const diffDays = nowDate.diff(noteDate, 'day');
-    
+
         if (diffSeconds < 60) {
-            return `${diffSeconds !== 0 ? diffSeconds : 1} second${diffSeconds !== 1 ? 's' : ''} ago`;
+            return `Edited ${diffSeconds !== 0 ? diffSeconds : 1} second${diffSeconds !== 1 ? 's' : ''} ago`;
         } else if (diffMinutes < 60) {
-            return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+            return `Edited ${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
         } else if (diffHours < 24) {
-            return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+            return `Edited ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
         } else if (diffDays < 7) {
-            return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+            return `Edited ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
         } else {
-            return noteDate.format('YYYY-MM-DD');
+            return `Edited ${noteDate.format('YYYY-MM-DD')}`;
         }
     };
+
+    const sortedNoteList = useMemo(() => {
+        if (!sortOrder) return noteList;
+
+        return [...noteList].sort((a, b) => (
+            sortOrder === 'desc' ?
+                dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                :
+                dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
+        ));
+
+    }, [noteList, sortOrder]);
 
     useEffect(() => {
         const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
@@ -54,19 +66,24 @@ const NoteList = () => {
 
     return (
         <>
-            
+
             {loading ? <Skeleton className="flex flex-1 rounded-xl mt-8 bg-gray-200" /> :
                 noteList.length > 0 ?
                     <div className="mt-8 flex-1 overflow-y-auto">
                         <div className="flex flex-col gap-y-5">
                             {
-                                noteList.sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()).map((n) => (
+                                sortedNoteList.map((n) => (
                                     <div key={n.id} className="bg-white rounded-xl p-4 cursor-pointer hover:bg-gray-200" onClick={() => handleModifyNote(n)}>
                                         <p className="text-xl">
                                             {n.title}
                                         </p>
-                                        <p className="text-xs text-gray-400 mt-1">
-                                            {calculationNoteDate(n.date || '')}
+                                        <p className="text-xs text-gray-400 mt-1 flex items-center justify-between">
+                                            <span>
+                                                {calculationNoteDate(n.modifyDate || '')}
+                                            </span>
+                                            <span>
+                                                {dayjs(n.date).format('YYYY-MM-DD HH:mm')}
+                                            </span>
                                         </p>
                                     </div>
                                 ))
