@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 
 const NoteList = () => {
     const { setRegistForm, setIsModify } = useUi();
-    const { noteList, setNoteList, setSlectedNote, sortOrder } = useNote();
+    const { noteList, setNoteList, setSlectedNote, sortOrder, searchText } = useNote();
     const [loading, setLoading] = useState<boolean>(true);
 
     const handleAddBtn = () => {
@@ -46,16 +46,31 @@ const NoteList = () => {
     };
 
     const sortedNoteList = useMemo(() => {
-        if (!sortOrder) return noteList;
+        if (!searchText) {
+            if (!sortOrder) return noteList;
 
-        return [...noteList].sort((a, b) => (
-            sortOrder === 'desc' ?
-                dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
-                :
-                dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
-        ));
+            return [...noteList].sort((a, b) => (
+                sortOrder === 'desc' ?
+                    dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                    :
+                    dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
+            ));
+        } else {
+            if (!sortOrder) return noteList.filter((n) => (
+                n.title.includes(searchText.trim())
+            ));
 
-    }, [noteList, sortOrder]);
+            return [...noteList].sort((a, b) => (
+                sortOrder === 'desc' ?
+                    dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                    :
+                    dayjs(a.date).valueOf() - dayjs(b.date).valueOf()
+            )).filter((n) => (
+                n.title.includes(searchText.trim())
+            ));
+        }
+
+    }, [noteList, sortOrder, searchText]);
 
     useEffect(() => {
         const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
@@ -68,7 +83,7 @@ const NoteList = () => {
         <>
 
             {loading ? <Skeleton className="flex flex-1 rounded-xl mt-8 bg-gray-200" /> :
-                noteList.length > 0 ?
+                sortedNoteList.length > 0 ?
                     <div className="mt-8 flex-1 overflow-y-auto">
                         <div className="flex flex-col gap-y-5">
                             {

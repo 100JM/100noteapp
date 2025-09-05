@@ -24,5 +24,7 @@ export interface NoteInfo {
     setSlectedNote: (note: noteInterface | null) => void;
     sortOrder: string;
     setSortOrder: (sort: string) => void;
+    searchText: string;
+    setSearchText: (text: string) => void;
 }
 

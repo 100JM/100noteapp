@@ -10,7 +10,7 @@ const NoteApp = () => {
     const { registForm } = useUi();
 
     return (
-        <div className="w-full h-[650px] bg-gray-100 rounded-3xl shadow-2xl px-8 pt-20 pb-10 flex flex-col">
+        <div className="w-11/12 sm:w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 h-[650px] bg-gray-100 rounded-3xl shadow-2xl px-8 pt-20 pb-10 flex flex-col">
             <div className="flex-shrink-0">
                 <h2 className="text-4xl">Notes App</h2>
                 <p className="mt-3">무엇이든 기록하세요.</p>

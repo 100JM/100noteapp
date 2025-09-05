@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import ConfirmAlert from "./ConfirmAlert";
 
 import z from "zod";
 import dayjs from "dayjs";
@@ -86,11 +87,11 @@ const RegistNote = () => {
         }
     };
 
-    const handleRemoveNote = (noteId: string) => {
+    const handleRemoveNote = () => {
         const noteList = JSON.parse(localStorage.getItem('notes') || '[]');
 
         const removedNoteList = noteList.filter((n: noteInterface) => {
-            return n.id !== noteId;
+            return n.id !== selectedNote?.id;
         });
 
         localStorage.setItem('notes', JSON.stringify(removedNoteList));
@@ -113,9 +114,7 @@ const RegistNote = () => {
             </div>
             <div className={`mt-8 flex items-center flex-shrink-0 ${isModify ? 'justify-between' : 'justify-end'}`}>
                 {isModify &&
-                    <Button type="button" className="cursor-pointer bg-red-600 text-white" onClick={() => handleRemoveNote(selectedNote?.id || '')}>
-                        Remove
-                    </Button>
+                    <ConfirmAlert confirmFun={handleRemoveNote} />
                 }
                 <Button type="button" className="cursor-pointer bg-blue-600 text-white" onClick={handleSaveNote}>
                     Done
