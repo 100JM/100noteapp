@@ -73,7 +73,7 @@ const NoteList = () => {
     }, [noteList, sortOrder, searchText]);
 
     useEffect(() => {
-        const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]');
+        const savedNotes = JSON.parse(localStorage.getItem('notes') || '[]').reverse();
         setNoteList(savedNotes);
         setSlectedNote(null);
         setLoading(false);
@@ -89,7 +89,7 @@ const NoteList = () => {
                             {
                                 sortedNoteList.map((n) => (
                                     <div key={n.id} className="bg-white rounded-xl p-4 cursor-pointer hover:bg-gray-200" onClick={() => handleModifyNote(n)}>
-                                        <p className="text-xl">
+                                        <p className="text-xl truncate">
                                             {n.title}
                                         </p>
                                         <p className="text-xs text-gray-400 mt-1 flex items-center justify-between">

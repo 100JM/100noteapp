@@ -107,10 +107,10 @@ const RegistNote = () => {
                     &lt; Back
                 </Button>
                 <div className="flex-shrink-0">
-                    <Input ref={titleRef} type="text" id="noteTitleInput" placeholder="제목" className="border-0 bg-white focus-visible:ring-2" defaultValue={selectedNote ? selectedNote.title : ''} />
+                    <Input ref={titleRef} type="text" id="noteTitleInput" placeholder="제목" autoComplete="off" className="border-0 bg-white focus-visible:ring-2" defaultValue={selectedNote ? selectedNote.title : ''} />
                     {errorMsg && <p className="text-sm text-red-500 pl-0.5 pt-0.5">{errorMsg}</p>}
                 </div>
-                <Textarea ref={contentRef} className="border-0 bg-white focus-visible:ring-2 flex-1 resize-none" placeholder="내용을 입력하세요." defaultValue={selectedNote ? selectedNote.content || '' : ''} />
+                <Textarea ref={contentRef} className="border-0 bg-white focus-visible:ring-2 flex-1 resize-none" placeholder="내용을 입력하세요." autoComplete="off" defaultValue={selectedNote ? selectedNote.content || '' : ''} />
             </div>
             <div className={`mt-8 flex items-center flex-shrink-0 ${isModify ? 'justify-between' : 'justify-end'}`}>
                 {isModify &&

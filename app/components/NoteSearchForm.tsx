@@ -23,9 +23,9 @@ const NoteSearchForm = () => {
 
     return (
         <div className="mt-8 flex gap-x-3 flex-shrink-0">
-            <Input type="text" id="noteSearchInput" placeholder="검색" className="border-0 w-3/4 bg-white focus-visible:ring-2" defaultValue={searchText} onChange={(e) => handleSearchInput(e.target.value)} />
+            <Input type="text" id="noteSearchInput" placeholder="검색" className="border-0 w-3/5 bg-white focus-visible:ring-2" defaultValue={searchText} onChange={(e) => handleSearchInput(e.target.value)} />
             <Select onValueChange={(e) => handleSortOrder(e)} value={sortOrder}>
-                <SelectTrigger className="border-0 w-1/4 bg-white focus-visible:ring-2">
+                <SelectTrigger className="border-0 w-2/5 bg-white focus-visible:ring-2">
                     <SelectValue placeholder="정렬 순서" />
                 </SelectTrigger>
                 <SelectContent className="border-0 bg-white">
